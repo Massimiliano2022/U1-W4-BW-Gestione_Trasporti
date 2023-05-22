@@ -1,6 +1,7 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 
@@ -24,8 +25,8 @@ public class Biglietto extends Ticket {
 
 	}
 
-	public Biglietto(LocalDate dataEmissione, boolean timbrato) {
-		super(dataEmissione);
+	public Biglietto(UUID id, LocalDate dataEmissione, boolean timbrato) {
+		super(id, dataEmissione);
 		setTimbrato(timbrato);
 	}
 

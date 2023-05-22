@@ -1,20 +1,14 @@
 package entities;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Cascade;
 
@@ -23,24 +17,24 @@ import org.hibernate.annotations.Cascade;
 public abstract class Ticket {
 
 	@Id
-	@SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_seq")
-	private Long id;
+	private UUID id;
 	private LocalDate dataEmissione;
 	@ManyToOne
-	@JoinColumn(name = "puntoVendita_id", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "puntoVendita_id", referencedColumnName = "id", nullable = true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private PuntoVendita puntoVendita;
-	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-	@OrderBy(value = "tessera.numeroTessera")
-	private List<Tessera> listaTessere;
+
+	@ManyToOne
+	@JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = true)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	private Tessera tessera;
 
 	// Getters & Setters
-	public void setId(Long id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
-	public Long getId() {
+	public UUID getId() {
 		return id;
 	}
 
@@ -60,12 +54,12 @@ public abstract class Ticket {
 		this.puntoVendita = puntoVendita;
 	}
 
-	public void setTessera(List<Tessera> listaTessere) {
-		this.listaTessere = listaTessere;
+	public void setTessera(Tessera tessera) {
+		this.tessera = tessera;
 	}
 
-	public List<Tessera> getTessera() {
-		return listaTessere;
+	public Tessera getTessera() {
+		return tessera;
 	}
 
 	// Costruttore
@@ -73,8 +67,9 @@ public abstract class Ticket {
 
 	}
 
-	public Ticket(LocalDate dataEmissione) {
-		this.dataEmissione = LocalDate.now();
+	public Ticket(UUID id, LocalDate dataEmissione) {
+		setId(id);
+		setDataEmissione(dataEmissione);
 	}
 
 }
