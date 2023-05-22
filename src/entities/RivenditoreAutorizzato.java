@@ -1,8 +1,10 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "rivenditori_autorizzati")
 public class RivenditoreAutorizzato extends PuntoVendita {
 	private String nomeAttivita;
 	private TipoAttivita tipoAttivita;

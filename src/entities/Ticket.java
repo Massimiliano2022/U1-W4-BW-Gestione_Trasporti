@@ -8,11 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Ticket {
 
 	@Id
@@ -20,6 +27,9 @@ public abstract class Ticket {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_seq")
 	private Long id;
 	private LocalDate dataEmissione;
+	@ManyToOne
+	@JoinColumn(name = "puntoVendita_id", referencedColumnName = "id", nullable = false)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private PuntoVendita puntoVendita;
 	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
 	@OrderBy(value = "tessera.numeroTessera")

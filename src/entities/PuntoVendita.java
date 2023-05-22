@@ -6,11 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class PuntoVendita {
 	@Id
 	@SequenceGenerator(name = "puntovendita_seq", sequenceName = "puntovendita_seq", allocationSize = 1)
@@ -18,9 +21,11 @@ public abstract class PuntoVendita {
 	private Long id;
 	private String citta;
 	private String indirizzo;
-	@ManyToOne
+	@OneToMany
 	@JoinColumn(name = "biglietto_id", referencedColumnName = "id", nullable = false)
 	private List<Biglietto> listaBigliettiVenduti;
+	@OneToMany
+	@JoinColumn(name = "abbonamento_id", referencedColumnName = "id", nullable = false)
 	private List<Abbonamento> listaAbbonamentiVenduti;
 
 	// Getters and Setters

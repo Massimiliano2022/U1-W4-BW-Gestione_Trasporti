@@ -1,8 +1,10 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "distributori_automatici")
 public class DistributoreAutomatico extends PuntoVendita {
 	private boolean attivo;
 
