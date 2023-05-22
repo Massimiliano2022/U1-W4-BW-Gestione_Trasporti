@@ -2,11 +2,13 @@ package entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+@Entity
 public abstract class Ticket {
 
 	@Id
@@ -27,6 +29,10 @@ public abstract class Ticket {
 	}
 
 	// Costruttore
+	public Ticket() {
+
+	}
+
 	public Ticket(LocalDate dataEmissione) {
 		this.dataEmissione = LocalDate.now();
 	}
