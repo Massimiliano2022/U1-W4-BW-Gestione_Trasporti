@@ -85,10 +85,11 @@ public class Tessera {
 
 	}
 
-	public Tessera(UUID numeroTessera, LocalDate dataEmissione, LocalDate dataScadenza) {
+	public Tessera(UUID numeroTessera, LocalDate dataEmissione, LocalDate dataScadenza, Utente utente) {
 		setNumeroTessera(numeroTessera);
 		setDataEmissione(dataEmissione);
 		setDataScadenza(dataScadenza);
+		setUtente(utente);
 	}
 
 	@Override

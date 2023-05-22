@@ -65,7 +65,7 @@ public class Utente {
 
 	@Override
 	public String toString() {
-		return "Utente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", tessera=" + tessera + "]";
+		return "Utente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + "]";
 	}
 
 }

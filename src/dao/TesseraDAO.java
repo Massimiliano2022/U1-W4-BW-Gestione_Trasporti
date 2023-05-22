@@ -7,23 +7,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.Application;
-import entities.PuntoVendita;
+import entities.Tessera;
 
-public class PuntoVenditaDAO {
+public class TesseraDAO {
 
 	private static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	private final EntityManager em;
 
-	public PuntoVenditaDAO(EntityManager em) {
+	public TesseraDAO(EntityManager em) {
 		this.em = em;
 	}
 
-	public void save(PuntoVendita pv) {
+	public void save(Tessera tessera) {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		em.persist(pv);
+		em.persist(tessera);
 		t.commit();
-		logger.info("Punto vendita salvato!");
+		logger.info("Tessera salvato!");
 	}
 }
