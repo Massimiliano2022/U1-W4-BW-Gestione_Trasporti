@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -16,6 +18,8 @@ public abstract class PuntoVendita {
 	private Long id;
 	private String citta;
 	private String indirizzo;
+	@ManyToOne
+	@JoinColumn(name = "biglietto_id", referencedColumnName = "id", nullable = false)
 	private List<Biglietto> listaBigliettiVenduti;
 	private List<Abbonamento> listaAbbonamentiVenduti;
 

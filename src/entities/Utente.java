@@ -1,9 +1,12 @@
 package entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -15,6 +18,8 @@ public class Utente {
 	private Long id;
 	private String nome;
 	private String cognome;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tessera_id", referencedColumnName = "id")
 	private Tessera tessera;
 
 	public void setId(Long id) {

@@ -1,11 +1,15 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 @Entity
@@ -17,7 +21,9 @@ public abstract class Ticket {
 	private Long id;
 	private LocalDate dataEmissione;
 	private PuntoVendita puntoVendita;
-	private Tessera tessera;
+	@OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+	@OrderBy(value = "tessera.numeroTessera")
+	private List<Tessera> listaTessere;
 
 	// Getters & Setters
 	public void setId(Long id) {
@@ -44,12 +50,12 @@ public abstract class Ticket {
 		this.puntoVendita = puntoVendita;
 	}
 
-	public void setTessera(Tessera tessera) {
-		this.tessera = tessera;
+	public void setTessera(List<Tessera> listaTessere) {
+		this.listaTessere = listaTessere;
 	}
 
-	public Tessera getTessera() {
-		return tessera;
+	public List<Tessera> getTessera() {
+		return listaTessere;
 	}
 
 	// Costruttore
