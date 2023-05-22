@@ -1,6 +1,7 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -9,11 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
-
-import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Tessera {
@@ -28,17 +28,17 @@ public class Tessera {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "utente_id", referencedColumnName = "id")
 	private Utente utente;
-	@ManyToOne
-	@JoinColumn(name = "tessera_id", referencedColumnName = "id", nullable = false)
-	@Cascade(org.hibernate.annotations.CascadeType.ALL)
-	private Ticket ticket;
 
-	public Ticket getTicket() {
-		return ticket;
+	@OneToMany(mappedBy = "tessera", cascade = CascadeType.ALL)
+	@OrderBy(value = "tessera.numeroTessera")
+	private List<Ticket> listaTicket;
+
+	public List<Ticket> getListaTicket() {
+		return listaTicket;
 	}
 
-	public void setTicket(Ticket ticket) {
-		this.ticket = ticket;
+	public void setTicket(List<Ticket> listaTicket) {
+		this.listaTicket = listaTicket;
 	}
 
 	public Long getId() {

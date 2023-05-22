@@ -1,6 +1,7 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 
@@ -23,8 +24,8 @@ public class Abbonamento extends Ticket {
 
 	}
 
-	public Abbonamento(LocalDate dataEmissione, StatoPeriodicita periodicita) {
-		super(dataEmissione);
+	public Abbonamento(UUID id, LocalDate dataEmissione, StatoPeriodicita periodicita) {
+		super(id, dataEmissione);
 		setPeriodicita(periodicita);
 	}
 
