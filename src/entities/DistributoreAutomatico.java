@@ -1,19 +1,11 @@
 package entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 
 @Entity
 public class DistributoreAutomatico extends PuntoVendita {
 	private boolean attivo;
-	
-	//Constructor
-	public DistributoreAutomatico() {}
-	public DistributoreAutomatico(boolean attivo) {
-		super();
-		this.attivo = attivo;
-	}
-	
-	//Getters and Setters
+
 	public boolean isAttivo() {
 		return attivo;
 	}
@@ -21,11 +13,20 @@ public class DistributoreAutomatico extends PuntoVendita {
 	public void setAttivo(boolean attivo) {
 		this.attivo = attivo;
 	}
-	
-	//ToString
+
+	public DistributoreAutomatico() {
+	}
+
+	public DistributoreAutomatico(String citta, String indirizzo, boolean attivo) {
+		super(citta, indirizzo);
+		this.attivo = attivo;
+	}
+
 	@Override
 	public String toString() {
-		return "DistributoreAutomatico [attivo=" + attivo + "]";
+		return "DistributoreAutomatio [ id=" + getId() + ",citta=" + getCitta() + ",indirizzo=" + getIndirizzo()
+				+ ",listaBigliettiVenduti=" + getListaBigliettiVenduti() + ",listaAbbonamentiVenduti="
+				+ getListaAbbonamentiVenduti() + "attivo=" + attivo + "]";
 	}
 
 }

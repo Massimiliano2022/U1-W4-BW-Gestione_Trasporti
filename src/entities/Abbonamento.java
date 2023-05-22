@@ -9,16 +9,6 @@ public class Abbonamento extends Ticket {
 
 	private StatoPeriodicita periodicita;
 
-	// Costruttore
-	public Abbonamento() {
-
-	}
-
-	public Abbonamento(LocalDate dataEmissione, StatoPeriodicita periodicita) {
-		super(dataEmissione);
-		this.periodicita = periodicita;
-	}
-
 	// Getters & Setters
 	public StatoPeriodicita getPeriodicita() {
 		return periodicita;
@@ -28,9 +18,20 @@ public class Abbonamento extends Ticket {
 		this.periodicita = periodicita;
 	}
 
+	// Costruttore
+	public Abbonamento() {
+
+	}
+
+	public Abbonamento(LocalDate dataEmissione, StatoPeriodicita periodicita) {
+		super(dataEmissione);
+		setPeriodicita(periodicita);
+	}
+
 	@Override
 	public String toString() {
-		return "Abbonamento [periodicita=" + periodicita + "]";
+		return "Biglietto [ id=" + getId() + ",dataEmissione=" + getDataEmissione() + ",puntoVendita="
+				+ getPuntoVendita() + ",tessera=" + getTessera() + ",periodicita=" + periodicita + "]";
 	}
 
 }

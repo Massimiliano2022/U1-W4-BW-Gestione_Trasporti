@@ -15,7 +15,7 @@ public class Utente {
 	private Long id;
 	private String nome;
 	private String cognome;
-	// Tessera tessera;
+	private Tessera tessera;
 
 	public void setId(Long id) {
 		this.id = id;
@@ -41,6 +41,14 @@ public class Utente {
 		this.cognome = cognome;
 	}
 
+	public void setTessera(Tessera tessera) {
+		this.tessera = tessera;
+	}
+
+	public Tessera getTessera() {
+		return tessera;
+	}
+
 	public Utente() {
 
 	}
@@ -52,6 +60,7 @@ public class Utente {
 
 	@Override
 	public String toString() {
-		return "Utente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + "]";
+		return "Utente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", tessera=" + tessera + "]";
 	}
+
 }

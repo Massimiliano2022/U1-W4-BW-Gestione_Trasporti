@@ -16,16 +16,40 @@ public abstract class Ticket {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ticket_seq")
 	private Long id;
 	private LocalDate dataEmissione;
-	// private PuntoVendita puntoVendita;
-	// private Tessera tessera;
+	private PuntoVendita puntoVendita;
+	private Tessera tessera;
 
 	// Getters & Setters
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
 	public LocalDate getDataEmissione() {
 		return dataEmissione;
 	}
 
 	public void setDataEmissione(LocalDate dataEmissione) {
 		this.dataEmissione = dataEmissione;
+	}
+
+	public PuntoVendita getPuntoVendita() {
+		return puntoVendita;
+	}
+
+	public void setPuntoVendita(PuntoVendita puntoVendita) {
+		this.puntoVendita = puntoVendita;
+	}
+
+	public void setTessera(Tessera tessera) {
+		this.tessera = tessera;
+	}
+
+	public Tessera getTessera() {
+		return tessera;
 	}
 
 	// Costruttore

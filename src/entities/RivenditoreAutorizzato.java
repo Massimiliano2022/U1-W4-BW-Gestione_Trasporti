@@ -6,31 +6,38 @@ import javax.persistence.Entity;
 public class RivenditoreAutorizzato extends PuntoVendita {
 	private String nomeAttivita;
 	private TipoAttivita tipoAttivita;
-	
-	//Constructor
-	public RivenditoreAutorizzato() {}
-	public RivenditoreAutorizzato(String nomeAttivita, TipoAttivita tipoAttivita) {
-		super();
-		this.nomeAttivita = nomeAttivita;
-		this.tipoAttivita = tipoAttivita;
-	}
-	
+
 	public String getNomeAttivita() {
 		return nomeAttivita;
 	}
+
 	public void setNomeAttivita(String nomeAttivita) {
 		this.nomeAttivita = nomeAttivita;
 	}
+
 	public TipoAttivita getTipoAttivita() {
 		return tipoAttivita;
 	}
+
 	public void setTipoAttivita(TipoAttivita tipoAttivita) {
 		this.tipoAttivita = tipoAttivita;
 	}
-	
-	//To String
+
+	// Constructor
+	public RivenditoreAutorizzato() {
+
+	}
+
+	public RivenditoreAutorizzato(String citta, String indirizzo, String nomeAttivita, TipoAttivita tipoAttivita) {
+		super(citta, indirizzo);
+		setNomeAttivita(nomeAttivita);
+		setTipoAttivita(tipoAttivita);
+	}
+
 	@Override
 	public String toString() {
-		return "RivenditoreAutorizzato [nomeAttivita=" + nomeAttivita + ", tipoAttivita=" + tipoAttivita + "]";
+		return "RivenditoreAutorizzato [ id=" + getId() + ",citta=" + getCitta() + ",indirizzo=" + getIndirizzo()
+				+ ",listaBigliettiVenduti=" + getListaBigliettiVenduti() + ",listaAbbonamentiVenduti="
+				+ getListaAbbonamentiVenduti() + "nomeAttivita=" + nomeAttivita + ",tipoAttivita=" + tipoAttivita + "]";
 	}
 }

@@ -9,16 +9,6 @@ public class Biglietto extends Ticket {
 
 	private boolean timbrato;
 
-	// Costruttore
-	public Biglietto() {
-
-	}
-
-	public Biglietto(LocalDate dataEmissione, boolean timbrato) {
-		super(dataEmissione);
-		this.timbrato = timbrato;
-	}
-
 	// Getters & Setters
 	public boolean isTimbrato() {
 		return timbrato;
@@ -28,9 +18,20 @@ public class Biglietto extends Ticket {
 		this.timbrato = timbrato;
 	}
 
+	// Costruttore
+	public Biglietto() {
+
+	}
+
+	public Biglietto(LocalDate dataEmissione, boolean timbrato) {
+		super(dataEmissione);
+		setTimbrato(timbrato);
+	}
+
 	@Override
 	public String toString() {
-		return "Biglietto [timbrato=" + timbrato + "]";
+		return "Biglietto [ id=" + getId() + ",dataEmissione=" + getDataEmissione() + ",puntoVendita="
+				+ getPuntoVendita() + ",tessera=" + getTessera() + ",timbrato=" + timbrato + "]";
 	}
 
 }
