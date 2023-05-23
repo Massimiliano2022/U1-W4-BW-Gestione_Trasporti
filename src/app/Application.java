@@ -46,11 +46,11 @@ public class Application {
 
 		abbonamentoU1.setTessera(tesseraU1);
 
-		List<Ticket> listaTicketU1 = new ArrayList();
+		List<Ticket> listaTicketU1 = new ArrayList<>();
 		listaTicketU1.add(abbonamentoU1);
 		tesseraU1.setTicket(listaTicketU1);
 
-		List<Abbonamento> listaAbbonamentiDistributore1 = new ArrayList();
+		List<Abbonamento> listaAbbonamentiDistributore1 = new ArrayList<>();
 		listaAbbonamentiDistributore1.add(abbonamentoU1);
 
 		da1.setListaAbbonamentiVenduti(listaAbbonamentiDistributore1);
