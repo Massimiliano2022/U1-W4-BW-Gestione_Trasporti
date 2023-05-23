@@ -76,8 +76,7 @@ public class Application {
 		tkd.save(bigliettoU3);
 
 		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
-		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo",
-				TipoAttivita.TABACCHI);
+		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo", TipoAttivita.TABACCHI);
 
 		// *********** SETTO GLI ATTRIBUTI ***********
 		abbonamentoU1.setPuntoVendita(da1);
@@ -143,8 +142,7 @@ public class Application {
 		}
 		logger.info("*********************************");
 		logger.info("L'ABBONAMENTO DI " + u.getNome() + " " + u.getCognome() + " E' "
-				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "VALIDO"
-						: "SCADUTO"));
+				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO" : "VALIDO"));
 		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
 	}
 
