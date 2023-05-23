@@ -38,19 +38,40 @@ public class Application {
 		TicketDAO tkd = new TicketDAO(em);
 		PuntoVenditaDAO pvd = new PuntoVenditaDAO(em);
 
-		// *********** CREO ENTITA' ***********
+		// *********** CREO E SALVO UTENTE ***********
 		Utente utente1 = new Utente(UUID.randomUUID(), "Mario", "Rossi");
-		Abbonamento abbonamentoU1 = new Abbonamento(UUID.randomUUID(), LocalDate.now(), StatoPeriodicita.MENSILE);
-		Tessera tesseraU1 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente1);
-		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
-
 		Utente utente2 = new Utente(UUID.randomUUID(), "Giovanni", "Storti");
-		Biglietto bigliettoU2 = new Biglietto(UUID.randomUUID(), LocalDate.now(), false);
-		Tessera tesseraU2 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente2);
-
 		Utente utente3 = new Utente(UUID.randomUUID(), "Roberto", "Baggio");
-		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now(), true);
+
+		// *********** CREO E SALVO ABBONAMENTI E BIGLIETTI ***********
+
+		Tessera tesseraU1 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente1);
+		Tessera tesseraU2 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente2);
 		Tessera tesseraU3 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente3);
+
+		ud.save(utente1);
+		ud.save(utente2);
+		ud.save(utente3);
+
+		utente1.setTessera(tesseraU1);
+		utente2.setTessera(tesseraU2);
+		utente3.setTessera(tesseraU3);
+
+		td.save(tesseraU1);
+		td.save(tesseraU2);
+		td.save(tesseraU3);
+
+		// *********** CREO E SALVO ABBONAMENTI E BIGLIETTI ***********
+
+		Abbonamento abbonamentoU1 = new Abbonamento(UUID.randomUUID(), LocalDate.now(), StatoPeriodicita.MENSILE);
+		Biglietto bigliettoU2 = new Biglietto(UUID.randomUUID(), LocalDate.now(), false);
+		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now(), true);
+
+		tkd.save(abbonamentoU1);
+		tkd.save(bigliettoU2);
+		tkd.save(bigliettoU3);
+
+		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
 
 		// *********** SETTO GLI ATTRIBUTI ***********
 		abbonamentoU1.setPuntoVendita(da1);
@@ -83,24 +104,12 @@ public class Application {
 		da1.setListaAbbonamentiVenduti(listaAbbonamentiDistributore1);
 		da1.setListaBigliettiVenduti(listaBigliettiDistributore1);
 
-		utente1.setTessera(tesseraU1);
-		utente2.setTessera(tesseraU2);
-		utente3.setTessera(tesseraU3);
 		logger.info(utente1.toString());
 		logger.info(utente2.toString());
 		logger.info(utente3.toString());
 
 		// *********** SALVO SUL DATABASE ***********
 		pvd.save(da1);
-		tkd.save(abbonamentoU1);
-		tkd.save(bigliettoU2);
-		tkd.save(bigliettoU3);
-		td.save(tesseraU1);
-		td.save(tesseraU2);
-		td.save(tesseraU3);
-		ud.save(utente1);
-		ud.save(utente2);
-		ud.save(utente3);
 
 		em.close();
 		emf.close();
