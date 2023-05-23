@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 public class Abbonamento extends Ticket {
 
 	private StatoPeriodicita periodicita;
-	private LocalDate dataScadenza;
 
 	// Getters & Setters
 	public StatoPeriodicita getPeriodicita() {
@@ -20,14 +19,6 @@ public class Abbonamento extends Ticket {
 		this.periodicita = periodicita;
 	}
 
-	public void setDataScadenza(LocalDate dataScadenza) {
-		this.dataScadenza = dataScadenza;
-	}
-
-	public LocalDate dataScadenza() {
-		return dataScadenza;
-	}
-
 	// Costruttore
 	public Abbonamento() {
 
@@ -36,11 +27,6 @@ public class Abbonamento extends Ticket {
 	public Abbonamento(UUID id, LocalDate dataEmissione, StatoPeriodicita periodicita) {
 		super(id, dataEmissione);
 		setPeriodicita(periodicita);
-		if (periodicita == StatoPeriodicita.SETTIMANALE) {
-			setDataScadenza(dataEmissione.plusDays(7));
-		} else {
-			setDataScadenza(dataEmissione.plusMonths(1));
-		}
 	}
 
 	@Override

@@ -32,10 +32,11 @@ public class TesseraDAO {
 		logger.info(tessera.toString() + " salvato!");
 	}
 
-	public boolean checkValiditaAbbonamento(Long id) {
+	public boolean checkValiditaAbbonamento(Long id, LocalDate dataScadenza) {
 		List<Tessera> listaResult = new ArrayList<>();
 		TypedQuery<Tessera> query = em.createNamedQuery("checkValiditaAbbonamento", Tessera.class);
 		query.setParameter("idTessera", id);
+		query.setParameter("dataScadenza", dataScadenza);
 		query.setParameter("oggi", LocalDate.now());
 		listaResult = query.getResultList();
 		if (!listaResult.isEmpty()) {

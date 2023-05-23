@@ -18,6 +18,7 @@ import dao.UtenteDAO;
 import entities.Abbonamento;
 import entities.Biglietto;
 import entities.DistributoreAutomatico;
+import entities.PuntoVendita;
 import entities.RivenditoreAutorizzato;
 import entities.StatoPeriodicita;
 import entities.Tessera;
@@ -116,15 +117,35 @@ public class Application {
 		pvd.save(da1);
 		pvd.save(rv1);
 
-		logger.info("BIGLIETTI VENDUTI DAL PUNTO VENDITA 1: "
-				+ tkd.selectAllTickets(LocalDate.of(2023, 1, 1), LocalDate.now(), da1.getId()));
-		logger.info("BIGLIETTI VENDUTI DAL PUNTO VENDITA 2: "
-				+ tkd.selectAllTickets(LocalDate.of(2023, 1, 1), LocalDate.now(), rv1.getId()));
+		stampaNumeroTicketsVenduti(tkd, da1);
+		stampaNumeroTicketsVenduti(tkd, rv1);
 
-		logger.info("ABBONAMENTO UTENTE1 E' " + td.checkValiditaAbbonamento(utente1.getTessera().getId()));
+		verificaValiditaAbbonamentoUtente(abbonamentoU1, td, utente1);
 
 		em.close();
 		emf.close();
+	}
+
+	private static void stampaNumeroTicketsVenduti(TicketDAO tkd, PuntoVendita pv) {
+		logger.info("*********************************");
+		logger.info("TICKETS VENDUTI DA :" + pv.getId());
+		logger.info("" + tkd.selectAllTickets(LocalDate.of(2023, 1, 1), LocalDate.now(), pv.getId()));
+	}
+
+	private static void verificaValiditaAbbonamentoUtente(Abbonamento a, TesseraDAO td, Utente u) {
+		LocalDate dataScadenzaAbbonamento;
+
+		if (a.getPeriodicita().toString().equals("SETTIMANALE")) {
+			dataScadenzaAbbonamento = a.getDataEmissione().plusDays(7);
+		} else {
+			dataScadenzaAbbonamento = a.getDataEmissione().plusMonths(1);
+
+		}
+		logger.info("*********************************");
+		logger.info("L'ABBONAMENTO DI " + u.getNome() + " " + u.getCognome() + " E' "
+				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "VALIDO"
+						: "SCADUTO"));
+		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
 	}
 
 }
