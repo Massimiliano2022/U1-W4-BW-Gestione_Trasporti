@@ -63,9 +63,9 @@ public class Application {
 
 		// *********** CREO E SALVO ABBONAMENTI E BIGLIETTI ***********
 
-		Abbonamento abbonamentoU1 = new Abbonamento(UUID.randomUUID(), LocalDate.now(), StatoPeriodicita.MENSILE);
-		Biglietto bigliettoU2 = new Biglietto(UUID.randomUUID(), LocalDate.now(), false);
-		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now(), true);
+		Abbonamento abbonamentoU1 = new Abbonamento(UUID.randomUUID(), LocalDate.now().minusDays(14), StatoPeriodicita.MENSILE);
+		Biglietto bigliettoU2 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(35), false);
+		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now().plusDays(60), true);
 
 		tkd.save(abbonamentoU1);
 		tkd.save(bigliettoU2);
@@ -110,6 +110,9 @@ public class Application {
 
 		// *********** SALVO SUL DATABASE ***********
 		pvd.save(da1);
+		
+		
+		logger.info("" + tkd.selectAllTickets(LocalDate.of(2023, 1, 1), LocalDate.now(), da1.getId()));
 
 		em.close();
 		emf.close();

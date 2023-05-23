@@ -1,7 +1,11 @@
 package dao;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +29,13 @@ public class TicketDAO {
 		em.persist(ticket);
 		t.commit();
 		logger.info("Ticket salvato!");
+	}
+	
+	public int selectAllTickets(LocalDate dataInizio, LocalDate dataFine, Long id) {
+		TypedQuery<Ticket> query = em.createNamedQuery("selectAllTickets", Ticket.class);
+		query.setParameter("dataInizio", dataInizio);
+		query.setParameter("dataFine", dataFine);
+		query.setParameter("idPuntoVendita", id);
+		return query.getResultList().size();
 	}
 }

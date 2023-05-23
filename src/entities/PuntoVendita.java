@@ -14,7 +14,6 @@ import javax.persistence.SequenceGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-//@NamedQuery(name = "verificaValiditaAbbonamentoPerTessera", query = "")
 public abstract class PuntoVendita {
 	@Id
 	@SequenceGenerator(name = "puntovendita_seq", sequenceName = "puntovendita_seq", allocationSize = 1)

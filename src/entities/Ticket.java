@@ -9,11 +9,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.Cascade;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@NamedQuery(name = "selectAllTickets", query = "SELECT t FROM Ticket t WHERE t.puntoVendita.id = :idPuntoVendita AND :dataInizio < t.dataEmissione AND t.dataEmissione < :dataFine")
 public abstract class Ticket {
 
 	@Id
