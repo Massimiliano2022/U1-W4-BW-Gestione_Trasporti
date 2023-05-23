@@ -1,7 +1,6 @@
 package dao;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -28,9 +27,9 @@ public class TicketDAO {
 		t.begin();
 		em.persist(ticket);
 		t.commit();
-		logger.info("Ticket salvato!");
+		logger.info(ticket.toString() + " salvato!");
 	}
-	
+
 	public int selectAllTickets(LocalDate dataInizio, LocalDate dataFine, Long id) {
 		TypedQuery<Ticket> query = em.createNamedQuery("selectAllTickets", Ticket.class);
 		query.setParameter("dataInizio", dataInizio);

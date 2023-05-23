@@ -1,7 +1,12 @@
 package dao;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +29,19 @@ public class TesseraDAO {
 		t.begin();
 		em.persist(tessera);
 		t.commit();
-		logger.info("Tessera salvato!");
+		logger.info(tessera.toString() + " salvato!");
 	}
+
+	public boolean checkValiditaAbbonamento(Long id) {
+		List<Tessera> listaResult = new ArrayList<>();
+		TypedQuery<Tessera> query = em.createNamedQuery("checkValiditaAbbonamento", Tessera.class);
+		query.setParameter("idTessera", id);
+		query.setParameter("oggi", LocalDate.now());
+		listaResult = query.getResultList();
+		if (!listaResult.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
 }

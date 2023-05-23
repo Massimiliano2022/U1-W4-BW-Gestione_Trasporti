@@ -24,6 +24,6 @@ public class PuntoVenditaDAO {
 		t.begin();
 		em.persist(pv);
 		t.commit();
-		logger.info("Punto vendita salvato!");
+		logger.info(pv.toString() + " salvato!");
 	}
 }

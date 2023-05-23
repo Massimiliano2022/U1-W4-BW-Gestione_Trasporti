@@ -22,10 +22,10 @@ public abstract class PuntoVendita {
 	private String citta;
 	private String indirizzo;
 	@OneToMany
-	@JoinColumn(name = "biglietto_id", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "puntoVenditaBiglietto_id", referencedColumnName = "id", nullable = true)
 	private List<Biglietto> listaBigliettiVenduti;
 	@OneToMany
-	@JoinColumn(name = "abbonamento_id", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "puntoVenditaAbbonamento_id", referencedColumnName = "id", nullable = true)
 	private List<Abbonamento> listaAbbonamentiVenduti;
 
 	// Getters and Setters

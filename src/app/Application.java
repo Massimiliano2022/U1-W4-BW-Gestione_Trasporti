@@ -18,9 +18,11 @@ import dao.UtenteDAO;
 import entities.Abbonamento;
 import entities.Biglietto;
 import entities.DistributoreAutomatico;
+import entities.RivenditoreAutorizzato;
 import entities.StatoPeriodicita;
 import entities.Tessera;
 import entities.Ticket;
+import entities.TipoAttivita;
 import entities.Utente;
 import util.JpaUtil;
 
@@ -63,20 +65,23 @@ public class Application {
 
 		// *********** CREO E SALVO ABBONAMENTI E BIGLIETTI ***********
 
-		Abbonamento abbonamentoU1 = new Abbonamento(UUID.randomUUID(), LocalDate.now().minusDays(14), StatoPeriodicita.MENSILE);
+		Abbonamento abbonamentoU1 = new Abbonamento(UUID.randomUUID(), LocalDate.now().minusDays(14),
+				StatoPeriodicita.SETTIMANALE);
 		Biglietto bigliettoU2 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(35), false);
-		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now().plusDays(60), true);
+		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(60), true);
 
 		tkd.save(abbonamentoU1);
 		tkd.save(bigliettoU2);
 		tkd.save(bigliettoU3);
 
 		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
+		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo",
+				TipoAttivita.TABACCHI);
 
 		// *********** SETTO GLI ATTRIBUTI ***********
 		abbonamentoU1.setPuntoVendita(da1);
 		bigliettoU2.setPuntoVendita(da1);
-		bigliettoU3.setPuntoVendita(da1);
+		bigliettoU3.setPuntoVendita(rv1);
 
 		abbonamentoU1.setTessera(tesseraU1);
 		bigliettoU2.setTessera(tesseraU2);
@@ -99,20 +104,24 @@ public class Application {
 
 		List<Biglietto> listaBigliettiDistributore1 = new ArrayList<>();
 		listaBigliettiDistributore1.add(bigliettoU2);
-		listaBigliettiDistributore1.add(bigliettoU3);
+
+		List<Biglietto> listaBigliettiRivenditore1 = new ArrayList<>();
+		listaBigliettiRivenditore1.add(bigliettoU3);
 
 		da1.setListaAbbonamentiVenduti(listaAbbonamentiDistributore1);
 		da1.setListaBigliettiVenduti(listaBigliettiDistributore1);
-
-		logger.info(utente1.toString());
-		logger.info(utente2.toString());
-		logger.info(utente3.toString());
+		rv1.setListaBigliettiVenduti(listaBigliettiRivenditore1);
 
 		// *********** SALVO SUL DATABASE ***********
 		pvd.save(da1);
-		
-		
-		logger.info("" + tkd.selectAllTickets(LocalDate.of(2023, 1, 1), LocalDate.now(), da1.getId()));
+		pvd.save(rv1);
+
+		logger.info("BIGLIETTI VENDUTI DAL PUNTO VENDITA 1: "
+				+ tkd.selectAllTickets(LocalDate.of(2023, 1, 1), LocalDate.now(), da1.getId()));
+		logger.info("BIGLIETTI VENDUTI DAL PUNTO VENDITA 2: "
+				+ tkd.selectAllTickets(LocalDate.of(2023, 1, 1), LocalDate.now(), rv1.getId()));
+
+		logger.info("ABBONAMENTO UTENTE1 E' " + td.checkValiditaAbbonamento(utente1.getTessera().getId()));
 
 		em.close();
 		emf.close();

@@ -24,6 +24,6 @@ public class UtenteDAO {
 		t.begin();
 		em.persist(u);
 		t.commit();
-		logger.info("Utente salvato!");
+		logger.info(u.toString() + " salvato!");
 	}
 }

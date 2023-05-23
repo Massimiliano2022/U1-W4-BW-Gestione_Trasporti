@@ -16,6 +16,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 @Entity
+//@NamedQuery(name = "checkValiditaAbbonamento", query = "SELECT t FROM Tessera t WHERE t.id = :idTessera AND t.id IN (SELECT tk FROM Ticket tk WHERE tk.dataScadenza < :oggi")
 public class Tessera {
 
 	@Id

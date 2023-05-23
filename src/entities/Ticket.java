@@ -27,7 +27,7 @@ public abstract class Ticket {
 	private PuntoVendita puntoVendita;
 
 	@ManyToOne
-	@JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "tessera_id", referencedColumnName = "id", nullable = true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Tessera tessera;
 
