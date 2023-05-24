@@ -1,40 +1,41 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Veicolo {
 
 	// Attributi
 	@Id
 	@GeneratedValue
 	private UUID id;
-	private TipoVeicolo tipoVeicolo;
-	private int capienza;
+
 	private boolean statoServizio;
 	private LocalDate dataInizioServizio;
 	private LocalDate dataFineServizio;
 
+	@OneToMany
+	@JoinColumn(name = "veicolo_id", referencedColumnName = "id", nullable = true)
+	private List<Ticket> listaTickets;
+
 	// Getters & Setters
-	public TipoVeicolo getTipoVeicolo() {
-		return tipoVeicolo;
+	public UUID getId() {
+		return id;
 	}
 
-	public void setTipoVeicolo(TipoVeicolo tipoVeicolo) {
-		this.tipoVeicolo = tipoVeicolo;
-	}
-
-	public int getCapienza() {
-		return capienza;
-	}
-
-	public void setCapienza(int capienza) {
-		this.capienza = capienza;
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 	public boolean isStatoServizio() {
@@ -61,19 +62,20 @@ public class Veicolo {
 		this.dataFineServizio = dataFineServizio;
 	}
 
+	public List<Ticket> getListaTickets() {
+		return listaTickets;
+	}
+
+	public void setListaTickets(List<Ticket> listaTickets) {
+		this.listaTickets = listaTickets;
+	}
+
 	// Costruttore
 	public Veicolo() {
 
 	}
 
-	public Veicolo(TipoVeicolo tipoVeicolo, boolean statoServizio) {
-		setTipoVeicolo(tipoVeicolo);
-		//		if (tipoVeicolo.toString().equals("TRAM")) {
-		//			setCapienza(25);
-		//		} else {
-		//			setCapienza(50);
-		//		}
-		setCapienza(tipoVeicolo.toString().equals("TRAM") ? 25 : 50);
+	public Veicolo(boolean statoServizio) {
 		setStatoServizio(statoServizio);
 		if (statoServizio) {
 			setDataInizioServizio(LocalDate.now());

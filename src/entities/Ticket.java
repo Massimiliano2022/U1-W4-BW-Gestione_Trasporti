@@ -32,6 +32,11 @@ public abstract class Ticket {
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Tessera tessera;
 
+	@ManyToOne
+	@JoinColumn(name = "veicolo_id", referencedColumnName = "id", nullable = true)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	private Veicolo veicolo;
+
 	// Getters & Setters
 	public void setId(UUID id) {
 		this.id = id;
@@ -63,6 +68,14 @@ public abstract class Ticket {
 
 	public Tessera getTessera() {
 		return tessera;
+	}
+
+	public Veicolo getVeicolo() {
+		return veicolo;
+	}
+
+	public void setVeicolo(Veicolo veicolo) {
+		this.veicolo = veicolo;
 	}
 
 	// Costruttore

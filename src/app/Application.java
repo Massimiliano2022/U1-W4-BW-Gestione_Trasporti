@@ -15,7 +15,9 @@ import dao.PuntoVenditaDAO;
 import dao.TesseraDAO;
 import dao.TicketDAO;
 import dao.UtenteDAO;
+import dao.VeicoloDAO;
 import entities.Abbonamento;
+import entities.Autobus;
 import entities.Biglietto;
 import entities.DistributoreAutomatico;
 import entities.PuntoVendita;
@@ -24,6 +26,7 @@ import entities.StatoPeriodicita;
 import entities.Tessera;
 import entities.Ticket;
 import entities.TipoAttivita;
+import entities.Tram;
 import entities.Utente;
 import util.JpaUtil;
 
@@ -36,44 +39,69 @@ public class Application {
 
 		EntityManager em = emf.createEntityManager();
 
+		// *********** CREO DAO ***********
+
 		UtenteDAO ud = new UtenteDAO(em);
 		TesseraDAO td = new TesseraDAO(em);
 		TicketDAO tkd = new TicketDAO(em);
 		PuntoVenditaDAO pvd = new PuntoVenditaDAO(em);
+		VeicoloDAO vd = new VeicoloDAO(em);
 
-		// *********** CREO E SALVO UTENTE ***********
+		// *********** CREO UTENTI ***********
+
 		Utente utente1 = new Utente(UUID.randomUUID(), "Mario", "Rossi");
 		Utente utente2 = new Utente(UUID.randomUUID(), "Giovanni", "Storti");
 		Utente utente3 = new Utente(UUID.randomUUID(), "Roberto", "Baggio");
+		Utente utente4 = new Utente(UUID.randomUUID(), "Piero", "Pelù");
+		Utente utente5 = new Utente(UUID.randomUUID(), "Aldo", "Baio");
 
-		// *********** CREO E SALVO ABBONAMENTI E BIGLIETTI ***********
+		// *********** CREO E SALVO TESSERE ***********
 
 		Tessera tesseraU1 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente1);
 		Tessera tesseraU2 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente2);
 		Tessera tesseraU3 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente3);
+		Tessera tesseraU4 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente4);
+		Tessera tesseraU5 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), utente5);
 
 		ud.save(utente1);
 		ud.save(utente2);
 		ud.save(utente3);
+		ud.save(utente4);
+		ud.save(utente5);
 
 		utente1.setTessera(tesseraU1);
 		utente2.setTessera(tesseraU2);
 		utente3.setTessera(tesseraU3);
+		utente4.setTessera(tesseraU4);
+		utente5.setTessera(tesseraU5);
 
 		td.save(tesseraU1);
 		td.save(tesseraU2);
 		td.save(tesseraU3);
+		td.save(tesseraU4);
+		td.save(tesseraU5);
 
 		// *********** CREO E SALVO ABBONAMENTI E BIGLIETTI ***********
 
 		Abbonamento abbonamentoU1 = new Abbonamento(UUID.randomUUID(), LocalDate.now().minusDays(14),
 				StatoPeriodicita.SETTIMANALE);
-		Biglietto bigliettoU2 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(35), false);
-		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(60), true);
+		Biglietto bigliettoU2 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(35));
+		Biglietto bigliettoU3 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(60));
+		Biglietto bigliettoU4 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(29));
+		Biglietto bigliettoU5 = new Biglietto(UUID.randomUUID(), LocalDate.now().minusDays(13));
 
 		tkd.save(abbonamentoU1);
 		tkd.save(bigliettoU2);
 		tkd.save(bigliettoU3);
+		tkd.save(bigliettoU4);
+		tkd.save(bigliettoU5);
+
+		// *********** CREO VEICOLI ***********
+
+		Tram tram1 = new Tram(true);
+		Autobus autobus1 = new Autobus(true);
+
+		// *********** CREO DISTRIBUTORI E RIVENDITORI ***********
 
 		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
 		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo", TipoAttivita.TABACCHI);
@@ -82,10 +110,14 @@ public class Application {
 		abbonamentoU1.setPuntoVendita(da1);
 		bigliettoU2.setPuntoVendita(da1);
 		bigliettoU3.setPuntoVendita(rv1);
+		bigliettoU4.setPuntoVendita(rv1);
+		bigliettoU5.setPuntoVendita(da1);
 
 		abbonamentoU1.setTessera(tesseraU1);
 		bigliettoU2.setTessera(tesseraU2);
 		bigliettoU3.setTessera(tesseraU3);
+		bigliettoU4.setTessera(tesseraU4);
+		bigliettoU5.setTessera(tesseraU5);
 
 		List<Ticket> listaTicketU1 = new ArrayList<>();
 		listaTicketU1.add(abbonamentoU1);
@@ -99,14 +131,51 @@ public class Application {
 		listaTicketU3.add(bigliettoU3);
 		tesseraU3.setTicket(listaTicketU3);
 
+		List<Ticket> listaTicketU4 = new ArrayList<>();
+		listaTicketU4.add(bigliettoU4);
+		tesseraU4.setTicket(listaTicketU4);
+
+		List<Ticket> listaTicketU5 = new ArrayList<>();
+		listaTicketU5.add(bigliettoU5);
+		tesseraU5.setTicket(listaTicketU5);
+
 		List<Abbonamento> listaAbbonamentiDistributore1 = new ArrayList<>();
 		listaAbbonamentiDistributore1.add(abbonamentoU1);
 
 		List<Biglietto> listaBigliettiDistributore1 = new ArrayList<>();
 		listaBigliettiDistributore1.add(bigliettoU2);
+		listaBigliettiDistributore1.add(bigliettoU5);
 
 		List<Biglietto> listaBigliettiRivenditore1 = new ArrayList<>();
 		listaBigliettiRivenditore1.add(bigliettoU3);
+		listaBigliettiRivenditore1.add(bigliettoU4);
+
+		// *********** LISTA TICKET TRAM1 ***********	
+		List<Ticket> listaBigliettiTram1 = new ArrayList<>();
+		listaBigliettiTram1.add(bigliettoU2);
+		listaBigliettiTram1.add(bigliettoU3);
+		tram1.setListaTickets(listaBigliettiTram1);
+
+		// BIGLIETTI TIMBRATI
+		bigliettoU2.setTimbrato(true);
+		bigliettoU3.setTimbrato(true);
+
+		if (tram1.getCapienzaTram() == listaBigliettiTram1.size()) {
+			logger.info("Capienza massima raggiunta!");
+		}
+
+		List<Ticket> listaBigliettiAutobus1 = new ArrayList<>();
+		listaBigliettiAutobus1.add(abbonamentoU1);
+		listaBigliettiAutobus1.add(bigliettoU4);
+		listaBigliettiAutobus1.add(bigliettoU5);
+
+		// BIGLIETTI TIMBRATI
+		bigliettoU4.setTimbrato(true);
+		bigliettoU5.setTimbrato(true);
+
+		if (autobus1.getCapienzaAutobus() == listaBigliettiAutobus1.size()) {
+			logger.info("Capienza massima raggiunta!");
+		}
 
 		da1.setListaAbbonamentiVenduti(listaAbbonamentiDistributore1);
 		da1.setListaBigliettiVenduti(listaBigliettiDistributore1);
@@ -115,6 +184,9 @@ public class Application {
 		// *********** SALVO SUL DATABASE ***********
 		pvd.save(da1);
 		pvd.save(rv1);
+
+		vd.save(tram1);
+		vd.save(autobus1);
 
 		stampaNumeroTicketsVenduti(tkd, da1);
 		stampaNumeroTicketsVenduti(tkd, rv1);
