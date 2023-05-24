@@ -7,23 +7,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.Application;
-import entities.Utente;
+import entities.Tratta;
 
-public class UtenteDAO {
+public class TrattaDAO {
 
 	private static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	private final EntityManager em;
 
-	public UtenteDAO(EntityManager em) {
+	public TrattaDAO(EntityManager em) {
 		this.em = em;
 	}
 
-	public void save(Utente u) {
+	public void save(Tratta tratta) {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		em.persist(u);
+		em.persist(tratta);
 		t.commit();
-		logger.info(u.toString() + " salvato!");
+		logger.info(tratta.toString() + " salvato!");
 	}
 }

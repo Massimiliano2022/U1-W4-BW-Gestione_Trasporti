@@ -25,15 +25,15 @@ public class Biglietto extends Ticket {
 
 	}
 
-	public Biglietto(UUID id, LocalDate dataEmissione, boolean timbrato) {
+	public Biglietto(UUID id, LocalDate dataEmissione) {
 		super(id, dataEmissione);
-		setTimbrato(timbrato);
+		setTimbrato(false);
 	}
 
 	@Override
 	public String toString() {
-		return "Biglietto [ id=" + getId() + ",dataEmissione=" + getDataEmissione() + ",puntoVendita="
-				+ getPuntoVendita() + ",tessera=" + getTessera() + ",timbrato=" + timbrato + "]";
+		return "Biglietto [ id=" + getId() + ",dataEmissione=" + getDataEmissione() + ",puntoVendita=" + getPuntoVendita()
+				+ ",tessera=" + getTessera() + ",timbrato=" + timbrato + "]";
 	}
 
 }

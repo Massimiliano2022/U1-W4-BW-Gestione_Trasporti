@@ -27,8 +27,7 @@ public class DistributoreAutomatico extends PuntoVendita {
 	@Override
 	public String toString() {
 		return "DistributoreAutomatio [ id=" + getId() + ",citta=" + getCitta() + ",indirizzo=" + getIndirizzo()
-				+ ",listaBigliettiVenduti=" + getListaBigliettiVenduti() + ",listaAbbonamentiVenduti="
-				+ getListaAbbonamentiVenduti() + "attivo=" + attivo + "]";
+				+ "attivo=" + attivo + "]";
 	}
 
 }

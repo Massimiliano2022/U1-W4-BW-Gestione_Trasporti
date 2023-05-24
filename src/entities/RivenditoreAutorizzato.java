@@ -39,7 +39,6 @@ public class RivenditoreAutorizzato extends PuntoVendita {
 	@Override
 	public String toString() {
 		return "RivenditoreAutorizzato [ id=" + getId() + ",citta=" + getCitta() + ",indirizzo=" + getIndirizzo()
-				+ ",listaBigliettiVenduti=" + getListaBigliettiVenduti() + ",listaAbbonamentiVenduti="
-				+ getListaAbbonamentiVenduti() + "nomeAttivita=" + nomeAttivita + ",tipoAttivita=" + tipoAttivita + "]";
+				+ "nomeAttivita=" + nomeAttivita + ",tipoAttivita=" + tipoAttivita + "]";
 	}
 }

@@ -7,23 +7,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.Application;
-import entities.Utente;
+import entities.Veicolo;
 
-public class UtenteDAO {
+public class VeicoloDAO {
 
 	private static Logger logger = LoggerFactory.getLogger(Application.class);
 
 	private final EntityManager em;
 
-	public UtenteDAO(EntityManager em) {
+	public VeicoloDAO(EntityManager em) {
 		this.em = em;
 	}
 
-	public void save(Utente u) {
+	public void save(Veicolo v) {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		em.persist(u);
+		em.persist(v);
 		t.commit();
-		logger.info(u.toString() + " salvato!");
+		logger.info(v.toString() + " salvato!");
 	}
 }

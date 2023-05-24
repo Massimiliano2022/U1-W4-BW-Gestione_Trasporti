@@ -10,12 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 @Entity
+@NamedQuery(name = "checkValiditaAbbonamento", query = "SELECT t FROM Tessera t WHERE t.id = :idTessera AND t.id IN (SELECT tk.tessera.id FROM Ticket tk WHERE tk.tessera.id = :idTessera AND :dataScadenza < :oggi)")
 public class Tessera {
 
 	@Id

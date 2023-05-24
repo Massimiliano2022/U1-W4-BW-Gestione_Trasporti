@@ -9,11 +9,16 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 
 import org.hibernate.annotations.Cascade;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "tipologia")
+@NamedQuery(name = "selectAllTickets", query = "SELECT t FROM Ticket t WHERE t.puntoVendita.id = :idPuntoVendita AND :dataInizio < t.dataEmissione AND t.dataEmissione < :dataFine")
+@NamedQuery(name = "selectAllTicketsByIdVeicolo", query = "SELECT t FROM Ticket t WHERE t.veicolo.id = :idVeicolo AND t.timbrato=true")
+@NamedQuery(name = "selectAllTicketsValidati", query = "SELECT t FROM Ticket t WHERE :dataInizio < t.dataEmissione AND t.dataEmissione < :dataFine and t.timbrato=true")
 public abstract class Ticket {
 
 	@Id
@@ -25,9 +30,14 @@ public abstract class Ticket {
 	private PuntoVendita puntoVendita;
 
 	@ManyToOne
-	@JoinColumn(name = "ticket_id", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "tessera_id", referencedColumnName = "id", nullable = true)
 	@Cascade(org.hibernate.annotations.CascadeType.ALL)
 	private Tessera tessera;
+
+	@ManyToOne
+	@JoinColumn(name = "veicolo_id", referencedColumnName = "id", nullable = true)
+	@Cascade(org.hibernate.annotations.CascadeType.ALL)
+	private Veicolo veicolo;
 
 	// Getters & Setters
 	public void setId(UUID id) {
@@ -60,6 +70,14 @@ public abstract class Ticket {
 
 	public Tessera getTessera() {
 		return tessera;
+	}
+
+	public Veicolo getVeicolo() {
+		return veicolo;
+	}
+
+	public void setVeicolo(Veicolo veicolo) {
+		this.veicolo = veicolo;
 	}
 
 	// Costruttore
