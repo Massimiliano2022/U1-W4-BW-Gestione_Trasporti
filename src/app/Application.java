@@ -104,7 +104,8 @@ public class Application {
 		// *********** CREO DISTRIBUTORI E RIVENDITORI ***********
 
 		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
-		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo", TipoAttivita.TABACCHI);
+		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo",
+				TipoAttivita.TABACCHI);
 
 		// *********** SETTO GLI ATTRIBUTI ***********
 		abbonamentoU1.setPuntoVendita(da1);
@@ -150,10 +151,11 @@ public class Application {
 		listaBigliettiRivenditore1.add(bigliettoU3);
 		listaBigliettiRivenditore1.add(bigliettoU4);
 
-		// *********** LISTA TICKET TRAM1 ***********	
+		// *********** LISTA TICKET TRAM1 ***********
 		List<Ticket> listaBigliettiTram1 = new ArrayList<>();
 		listaBigliettiTram1.add(bigliettoU2);
 		listaBigliettiTram1.add(bigliettoU3);
+
 		tram1.setListaTickets(listaBigliettiTram1);
 
 		// BIGLIETTI TIMBRATI
@@ -168,6 +170,8 @@ public class Application {
 		listaBigliettiAutobus1.add(abbonamentoU1);
 		listaBigliettiAutobus1.add(bigliettoU4);
 		listaBigliettiAutobus1.add(bigliettoU5);
+
+		autobus1.setListaTickets(listaBigliettiAutobus1);
 
 		// BIGLIETTI TIMBRATI
 		bigliettoU4.setTimbrato(true);
@@ -193,6 +197,13 @@ public class Application {
 
 		verificaValiditaAbbonamentoUtente(abbonamentoU1, td, utente1);
 
+		// *********** BIGLIETTI TIMBRATI PER VEICOLO ***********
+		logger.info("BIGLIETTI VIDIMATI PER AUTOBUS 1: " + tkd.selectAllTicketsByIdVeicolo(autobus1.getId()));
+		logger.info("BIGLIETTI VIDIMATI PER TRAM 1: " + tkd.selectAllTicketsByIdVeicolo(tram1.getId()));
+
+		logger.info("BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: "
+				+ tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
+
 		em.close();
 		emf.close();
 	}
@@ -214,7 +225,8 @@ public class Application {
 		}
 		logger.info("*********************************");
 		logger.info("L'ABBONAMENTO DI " + u.getNome() + " " + u.getCognome() + " E' "
-				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO" : "VALIDO"));
+				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO"
+						: "VALIDO"));
 		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
 	}
 
