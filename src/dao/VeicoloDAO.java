@@ -1,7 +1,10 @@
 package dao;
 
+import java.util.UUID;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +28,12 @@ public class VeicoloDAO {
 		em.persist(v);
 		t.commit();
 		logger.info(v.toString() + " salvato!");
+	}
+
+	public int selectNumeroViaggi(UUID idVeicolo, int idTratta) {
+		TypedQuery<Veicolo> query = em.createNamedQuery("selectNumeroViaggi", Veicolo.class);
+		query.setParameter("idVeicolo", idVeicolo);
+		query.setParameter("idTratta", idTratta);
+		return query.getResultList().size();
 	}
 }

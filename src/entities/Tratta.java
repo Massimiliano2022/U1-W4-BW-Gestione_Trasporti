@@ -8,9 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQuery(name = "selectTempoEffettivoPerTratta", query = "SELECT t FROM Tratta t WHERE t.id = :idTratta")
 public class Tratta {
 
 	// Attributi
@@ -71,7 +73,7 @@ public class Tratta {
 		this.oraFineTratta = oraFineTratta;
 
 		// questa classe (Duration) permette di eseguire delle operazioni sulle date
-		// impostiamo automaticamente il tempo effettivo data l'ora di arrivo  
+		// impostiamo automaticamente il tempo effettivo data l'ora di arrivo
 		Duration duration = Duration.between(this.oraInizioTratta, oraFineTratta);
 		int hours = (int) duration.toHours();
 		int minutes = (int) duration.toMinutesPart();
@@ -112,7 +114,7 @@ public class Tratta {
 		this.listaVeicoli = listaVeicoli;
 	}
 
-	//Costruttore
+	// Costruttore
 	public Tratta() {
 
 	}

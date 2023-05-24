@@ -113,7 +113,8 @@ public class Application {
 		// *********** CREO DISTRIBUTORI E RIVENDITORI ***********
 
 		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
-		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo", TipoAttivita.TABACCHI);
+		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo",
+				TipoAttivita.TABACCHI);
 
 		// *********** SETTO GLI ATTRIBUTI ***********
 		abbonamentoU1.setPuntoVendita(da1);
@@ -222,8 +223,18 @@ public class Application {
 		logger.info("BIGLIETTI VIDIMATI PER AUTOBUS 1: " + tkd.selectAllTicketsByIdVeicolo(autobus1.getId()));
 		logger.info("BIGLIETTI VIDIMATI PER TRAM 1: " + tkd.selectAllTicketsByIdVeicolo(tram1.getId()));
 
-		logger.info(
-				"BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: " + tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
+		logger.info("BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: "
+				+ tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
+
+		// *********** NUMERO VIAGGI PER VEICOLO E TRATTA ***********
+		logger.info("NUMERO VIAGGI PER VEICOLO AUTOBUS1 :" + vd.selectNumeroViaggi(autobus1.getId(), tratta2.getId()));
+
+		logger.info("NUMERO VIAGGI PER VEICOLO TRAM1: " + vd.selectNumeroViaggi(tram1.getId(), tratta1.getId()));
+
+		// *********** TEMPO EFFETTIVO PER TRATTA ***********
+		logger.info("TEMPO EFFETTIVO TRATTA1 :" + trd.selectTempoEffettivoPerTratta(tratta1.getId()));
+
+		logger.info("TEMPO EFFETTIVO TRATTA2: " + trd.selectTempoEffettivoPerTratta(tratta2.getId()));
 
 		em.close();
 		emf.close();
@@ -246,7 +257,8 @@ public class Application {
 		}
 		logger.info("*********************************");
 		logger.info("L'ABBONAMENTO DI " + u.getNome() + " " + u.getCognome() + " E' "
-				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO" : "VALIDO"));
+				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO"
+						: "VALIDO"));
 		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
 	}
 

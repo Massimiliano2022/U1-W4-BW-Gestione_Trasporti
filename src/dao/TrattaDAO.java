@@ -1,7 +1,10 @@
 package dao;
 
+import java.time.LocalTime;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +28,12 @@ public class TrattaDAO {
 		em.persist(tratta);
 		t.commit();
 		logger.info(tratta.toString() + " salvato!");
+	}
+
+	public LocalTime selectTempoEffettivoPerTratta(int idTratta) {
+		TypedQuery<Tratta> query = em.createNamedQuery("selectTempoEffettivoPerTratta", Tratta.class);
+		query.setParameter("idTratta", idTratta);
+		Tratta tratta = query.getSingleResult();
+		return tratta.getTempoEffettivo();
 	}
 }

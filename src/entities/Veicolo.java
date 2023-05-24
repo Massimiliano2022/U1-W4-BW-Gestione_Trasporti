@@ -11,10 +11,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@NamedQuery(name = "selectNumeroViaggi", query = "SELECT v FROM Veicolo v WHERE v.id = :idVeicolo AND v.tratta.id = :idTratta")
 public class Veicolo {
 
 	// Attributi
