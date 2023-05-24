@@ -1,6 +1,7 @@
 package app;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import dao.PuntoVenditaDAO;
 import dao.TesseraDAO;
 import dao.TicketDAO;
+import dao.TrattaDAO;
 import dao.UtenteDAO;
 import dao.VeicoloDAO;
 import entities.Abbonamento;
@@ -27,7 +29,9 @@ import entities.Tessera;
 import entities.Ticket;
 import entities.TipoAttivita;
 import entities.Tram;
+import entities.Tratta;
 import entities.Utente;
+import entities.Veicolo;
 import util.JpaUtil;
 
 public class Application {
@@ -46,6 +50,7 @@ public class Application {
 		TicketDAO tkd = new TicketDAO(em);
 		PuntoVenditaDAO pvd = new PuntoVenditaDAO(em);
 		VeicoloDAO vd = new VeicoloDAO(em);
+		TrattaDAO trd = new TrattaDAO(em);
 
 		// *********** CREO UTENTI ***********
 
@@ -96,16 +101,19 @@ public class Application {
 		tkd.save(bigliettoU4);
 		tkd.save(bigliettoU5);
 
+		// *********** CREO TRATTA ***********
+		Tratta tratta1 = new Tratta("Milano San Siro", "Milano Centrale", LocalTime.of(13, 00), LocalTime.of(1, 15), 5);
+		Tratta tratta2 = new Tratta("Roma", "Viterbo", LocalTime.of(8, 00), LocalTime.of(1, 45), 3);
+
 		// *********** CREO VEICOLI ***********
 
-		Tram tram1 = new Tram(true);
-		Autobus autobus1 = new Autobus(true);
+		Tram tram1 = new Tram(true, tratta1);
+		Autobus autobus1 = new Autobus(true, tratta2);
 
 		// *********** CREO DISTRIBUTORI E RIVENDITORI ***********
 
 		DistributoreAutomatico da1 = new DistributoreAutomatico("Milano", "Via Torino", true);
-		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo",
-				TipoAttivita.TABACCHI);
+		RivenditoreAutorizzato rv1 = new RivenditoreAutorizzato("Roma", "Via Nomentana", "Da Pippo", TipoAttivita.TABACCHI);
 
 		// *********** SETTO GLI ATTRIBUTI ***********
 		abbonamentoU1.setPuntoVendita(da1);
@@ -151,6 +159,12 @@ public class Application {
 		listaBigliettiRivenditore1.add(bigliettoU3);
 		listaBigliettiRivenditore1.add(bigliettoU4);
 
+		List<Veicolo> listaVeicoliTratta1 = new ArrayList<>();
+		listaVeicoliTratta1.add(autobus1);
+
+		List<Veicolo> listaVeicoliTratta2 = new ArrayList<>();
+		listaVeicoliTratta2.add(tram1);
+
 		// *********** LISTA TICKET TRAM1 ***********
 		List<Ticket> listaBigliettiTram1 = new ArrayList<>();
 		listaBigliettiTram1.add(bigliettoU2);
@@ -158,7 +172,7 @@ public class Application {
 
 		tram1.setListaTickets(listaBigliettiTram1);
 
-		// BIGLIETTI TIMBRATI
+		// *********** BIGLIETTI TIMBRATI ***********
 		bigliettoU2.setTimbrato(true);
 		bigliettoU3.setTimbrato(true);
 
@@ -185,9 +199,16 @@ public class Application {
 		da1.setListaBigliettiVenduti(listaBigliettiDistributore1);
 		rv1.setListaBigliettiVenduti(listaBigliettiRivenditore1);
 
+		// *********** SET ORARIO FINE TRATTA E TEMPO EFFETTIVO ***********
+		tratta1.setOraFineTratta(LocalTime.of(14, 25));
+		tratta2.setOraFineTratta(LocalTime.of(9, 55));
+
 		// *********** SALVO SUL DATABASE ***********
 		pvd.save(da1);
 		pvd.save(rv1);
+
+		trd.save(tratta1);
+		trd.save(tratta2);
 
 		vd.save(tram1);
 		vd.save(autobus1);
@@ -201,8 +222,8 @@ public class Application {
 		logger.info("BIGLIETTI VIDIMATI PER AUTOBUS 1: " + tkd.selectAllTicketsByIdVeicolo(autobus1.getId()));
 		logger.info("BIGLIETTI VIDIMATI PER TRAM 1: " + tkd.selectAllTicketsByIdVeicolo(tram1.getId()));
 
-		logger.info("BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: "
-				+ tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
+		logger.info(
+				"BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: " + tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
 
 		em.close();
 		emf.close();
@@ -225,8 +246,7 @@ public class Application {
 		}
 		logger.info("*********************************");
 		logger.info("L'ABBONAMENTO DI " + u.getNome() + " " + u.getCognome() + " E' "
-				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO"
-						: "VALIDO"));
+				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO" : "VALIDO"));
 		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
 	}
 

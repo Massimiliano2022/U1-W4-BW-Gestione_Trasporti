@@ -22,8 +22,8 @@ public class Tram extends Veicolo {
 
 	}
 
-	public Tram(boolean statoServizio) {
-		super(statoServizio);
+	public Tram(boolean statoServizio, Tratta tratta) {
+		super(statoServizio, tratta);
 		setCapienzaTram(2);
 		;
 	}

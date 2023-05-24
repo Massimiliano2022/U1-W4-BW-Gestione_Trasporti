@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -28,6 +29,10 @@ public class Veicolo {
 	@OneToMany
 	@JoinColumn(name = "veicolo_id", referencedColumnName = "id", nullable = true)
 	private List<Ticket> listaTickets;
+
+	@ManyToOne
+	@JoinColumn(name = "tratta_id", referencedColumnName = "id", nullable = true)
+	private Tratta tratta;
 
 	// Getters & Setters
 	public UUID getId() {
@@ -70,19 +75,27 @@ public class Veicolo {
 		this.listaTickets = listaTickets;
 	}
 
+	public Tratta getTratta() {
+		return tratta;
+	}
+
+	public void setTratta(Tratta tratta) {
+		this.tratta = tratta;
+	}
+
 	// Costruttore
 	public Veicolo() {
 
 	}
 
-	public Veicolo(boolean statoServizio) {
+	public Veicolo(boolean statoServizio, Tratta tratta) {
 		setStatoServizio(statoServizio);
 		if (statoServizio) {
 			setDataInizioServizio(LocalDate.now());
 		} else {
 			setDataInizioServizio(null);
 		}
-
+		setTratta(tratta);
 	}
 
 }

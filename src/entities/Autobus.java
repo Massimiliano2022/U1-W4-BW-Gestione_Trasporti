@@ -22,8 +22,8 @@ public class Autobus extends Veicolo {
 
 	}
 
-	public Autobus(boolean statoServizio) {
-		super(statoServizio);
+	public Autobus(boolean statoServizio, Tratta tratta) {
+		super(statoServizio, tratta);
 		setCapienzaAutobus(3);
 	}
 
