@@ -9,11 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@NamedQuery(name = "selectPuntoVenditaPerId", query = "SELECT p FROM PuntoVendita p WHERE p.id = :idPuntoVendita")
 public abstract class PuntoVendita {
 	@Id
 	@SequenceGenerator(name = "puntovendita_seq", sequenceName = "puntovendita_seq", allocationSize = 1)

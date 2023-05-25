@@ -19,6 +19,7 @@ import org.hibernate.annotations.Cascade;
 @NamedQuery(name = "selectAllTickets", query = "SELECT t FROM Ticket t WHERE t.puntoVendita.id = :idPuntoVendita AND :dataInizio < t.dataEmissione AND t.dataEmissione < :dataFine")
 @NamedQuery(name = "selectAllTicketsByIdVeicolo", query = "SELECT t FROM Ticket t WHERE t.veicolo.id = :idVeicolo AND t.timbrato=true")
 @NamedQuery(name = "selectAllTicketsValidati", query = "SELECT t FROM Ticket t WHERE :dataInizio < t.dataEmissione AND t.dataEmissione < :dataFine and t.timbrato=true")
+
 public abstract class Ticket {
 
 	@Id

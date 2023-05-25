@@ -2,6 +2,7 @@ package dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,4 +27,11 @@ public class PuntoVenditaDAO {
 		t.commit();
 		logger.info(pv.toString() + " salvato!");
 	}
+
+	public PuntoVendita selectPuntoVenditaPerId(Long id) {
+		TypedQuery<PuntoVendita> query = em.createNamedQuery("selectPuntoVenditaPerId", PuntoVendita.class);
+		query.setParameter("idPuntoVendita", id);
+		return query.getSingleResult();
+	}
+
 }
