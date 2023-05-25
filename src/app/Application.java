@@ -76,7 +76,6 @@ public class Application {
 			logger.info("********* 7 - CAMBIA STATO ATTIVITA' DISTRIBUTORE *********");
 			logger.info("********* 0 - TERMINA L'APPLICAZIONE *********");
 			logger.info("********* QUALE OPERAZIONE INTENDI ESEGUIRE? *********");
-			
 
 			int input = scanner.nextInt();
 
@@ -117,7 +116,6 @@ public class Application {
 		em.close();
 		emf.close();
 	}
-
 
 	private static void selezionaPuntoVenditaTicketVenduti(Scanner scanner, PuntoVenditaDAO pvd, TicketDAO tkd) {
 		stampaPuntiVendita(pvd);
@@ -315,9 +313,9 @@ public class Application {
 		Long id = (long) idDistributore;
 		DistributoreAutomatico d = pvd.selectDistributore(id);
 		if (d != null) {
-			logger.info("STATO ATTUALE DISTRIBUTORE: " + d.isAttivo());
+			logger.info("STATO ATTUALE DISTRIBUTORE: " + (d.isAttivo() ? "ATTIVO" : "FUORI SERVIZIO"));
 			pvd.updateStato(id);
-			logger.info("STATO DISTRIBUTORE AGGIORNATO: " + d.isAttivo());
+			logger.info("STATO DISTRIBUTORE AGGIORNATO: " + (d.isAttivo() ? "ATTIVO" : "FUORI SERVIZIO"));
 		}
 	}
 
@@ -328,7 +326,6 @@ public class Application {
 			logger.info(d.toString());
 		}
 	}
-
 
 	private static void popolaDb(UtenteDAO ud, TesseraDAO td, TicketDAO tkd, PuntoVenditaDAO pvd, VeicoloDAO vd,
 			TrattaDAO trd) {
