@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import app.Application;
 import entities.Tessera;
+import entities.Utente;
 
 public class TesseraDAO {
 
@@ -43,6 +44,17 @@ public class TesseraDAO {
 			return true;
 		}
 		return false;
+	}
+
+	public Utente selectUtenteByIdTessera(Long id) {
+		Utente u = null;
+		TypedQuery<Tessera> query = em.createNamedQuery("selectUtenteByIdTessera", Tessera.class);
+		query.setParameter("idTessera", id);
+		Tessera t = query.getSingleResult();
+		if (t != null) {
+			u = t.getUtente();
+		}
+		return u;
 	}
 
 }

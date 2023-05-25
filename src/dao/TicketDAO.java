@@ -1,6 +1,7 @@
 package dao;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -50,6 +51,17 @@ public class TicketDAO {
 		query.setParameter("dataInizio", dataInizio);
 		query.setParameter("dataFine", LocalDate.now());
 		return query.getResultList().size();
+	}
+
+	public List<Ticket> selectAbbonamenti() {
+		TypedQuery<Ticket> query = em.createNamedQuery("selectAbbonamenti", Ticket.class);
+		return query.getResultList();
+	}
+
+	public Ticket selectAbbonamentiById(UUID idAbbonamento) {
+		TypedQuery<Ticket> query = em.createNamedQuery("selectAbbonamentiById", Ticket.class);
+		query.setParameter("idAbbonamento", idAbbonamento);
+		return query.getSingleResult();
 	}
 
 }

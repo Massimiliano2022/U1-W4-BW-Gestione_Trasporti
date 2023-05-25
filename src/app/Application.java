@@ -105,8 +105,7 @@ public class Application {
 			tkd.save(bigliettoU5);
 
 			// *********** CREO TRATTA ***********
-			Tratta tratta1 = new Tratta("Milano San Siro", "Milano Centrale", LocalTime.of(13, 00), LocalTime.of(1, 15),
-					5);
+			Tratta tratta1 = new Tratta("Milano San Siro", "Milano Centrale", LocalTime.of(13, 00), LocalTime.of(1, 15), 5);
 			Tratta tratta2 = new Tratta("Roma", "Viterbo", LocalTime.of(8, 00), LocalTime.of(1, 45), 3);
 
 			// *********** CREO VEICOLI ***********
@@ -219,9 +218,15 @@ public class Application {
 			vd.save(autobus1);
 		}
 
-		Long id = 100L;
+		Long idPuntoVendita = 52L;
 
-		stampaNumeroTicketsVenduti(pvd, tkd, id);
+		stampaNumeroTicketsVenduti(pvd, tkd, idPuntoVendita);
+
+		stampaAbbonamenti(tkd);
+
+		UUID idAbbonamento = UUID.fromString("62cbbfa3-e71f-48d4-8080-2402540f3250");
+
+		verificaValiditaAbbonamentoUtente(td, tkd, idAbbonamento);
 
 		/*
 		 * verificaValiditaAbbonamentoUtente(abbonamentoU1, td, utente1);
@@ -251,19 +256,31 @@ public class Application {
 
 	}
 
-	private static void verificaValiditaAbbonamentoUtente(Abbonamento a, TesseraDAO td, Utente u) {
-		LocalDate dataScadenzaAbbonamento;
+	private static void stampaAbbonamenti(TicketDAO tkd) {
+		List<Ticket> listaAbbonamenti = tkd.selectAbbonamenti();
 
+		for (Ticket ticket : listaAbbonamenti) {
+			logger.info(ticket.toString());
+		}
+	}
+
+	private static void verificaValiditaAbbonamentoUtente(TesseraDAO td, TicketDAO tkd, UUID idAbbonamento) {
+		LocalDate dataScadenzaAbbonamento;
+		Ticket t = tkd.selectAbbonamentiById(idAbbonamento);
+		Abbonamento a = null;
+		if (t != null && t instanceof Abbonamento) {
+			a = (Abbonamento) t;
+		}
 		if (a.getPeriodicita().toString().equals("SETTIMANALE")) {
 			dataScadenzaAbbonamento = a.getDataEmissione().plusDays(7);
 		} else {
 			dataScadenzaAbbonamento = a.getDataEmissione().plusMonths(1);
 
 		}
+		Utente u = td.selectUtenteByIdTessera(a.getTessera().getId());
 		logger.info("*********************************");
 		logger.info("L'ABBONAMENTO DI " + u.getNome() + " " + u.getCognome() + " E' "
-				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO"
-						: "VALIDO"));
+				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO" : "VALIDO"));
 		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
 	}
 
@@ -275,8 +292,8 @@ public class Application {
 
 	private static void stampaNumeroTotaleBigliettiTimbrati(TicketDAO tkd) {
 		logger.info("*********************************");
-		logger.info("BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: "
-				+ tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
+		logger.info(
+				"BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: " + tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
 	}
 
 	private static void stampaNumeroViaggiPerVeicoloTratta(VeicoloDAO vd, Veicolo veicolo, Tratta tratta) {
@@ -287,8 +304,8 @@ public class Application {
 
 	private static void stampaTempoEffettivoPerTratta(TrattaDAO trd, Tratta tratta) {
 		logger.info("*********************************");
-		logger.info("TEMPO EFFETTIVO TRATTA CON ID " + tratta.getId() + ": "
-				+ trd.selectTempoEffettivoPerTratta(tratta.getId()));
+		logger.info(
+				"TEMPO EFFETTIVO TRATTA CON ID " + tratta.getId() + ": " + trd.selectTempoEffettivoPerTratta(tratta.getId()));
 	}
 
 }
