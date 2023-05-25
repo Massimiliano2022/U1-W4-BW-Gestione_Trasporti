@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -36,4 +37,10 @@ public class VeicoloDAO {
 		query.setParameter("idTratta", idTratta);
 		return query.getResultList().size();
 	}
+
+	public List<Veicolo> selectVeicoli() {
+		TypedQuery<Veicolo> query = em.createNamedQuery("selectVeicoli", Veicolo.class);
+		return query.getResultList();
+	}
+
 }

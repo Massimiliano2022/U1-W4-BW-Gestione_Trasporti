@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name = "selectPuntoVenditaPerId", query = "SELECT p FROM PuntoVendita p WHERE p.id = :idPuntoVendita")
+@NamedQuery(name = "selectPuntiVendita", query = "SELECT p FROM PuntoVendita p")
 public abstract class PuntoVendita {
 	@Id
 	@SequenceGenerator(name = "puntovendita_seq", sequenceName = "puntovendita_seq", allocationSize = 1)

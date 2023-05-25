@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -32,6 +34,11 @@ public class PuntoVenditaDAO {
 		TypedQuery<PuntoVendita> query = em.createNamedQuery("selectPuntoVenditaPerId", PuntoVendita.class);
 		query.setParameter("idPuntoVendita", id);
 		return query.getSingleResult();
+	}
+
+	public List<PuntoVendita> selectPuntiVendita() {
+		TypedQuery<PuntoVendita> query = em.createNamedQuery("selectPuntiVendita", PuntoVendita.class);
+		return query.getResultList();
 	}
 
 }

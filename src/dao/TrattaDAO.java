@@ -1,6 +1,7 @@
 package dao;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -36,4 +37,10 @@ public class TrattaDAO {
 		Tratta tratta = query.getSingleResult();
 		return tratta.getTempoEffettivo();
 	}
+
+	public List<Tratta> selectTratte() {
+		TypedQuery<Tratta> query = em.createNamedQuery("selectTratte", Tratta.class);
+		return query.getResultList();
+	}
+
 }

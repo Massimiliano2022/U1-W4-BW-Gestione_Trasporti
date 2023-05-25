@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQuery(name = "selectTempoEffettivoPerTratta", query = "SELECT t FROM Tratta t WHERE t.id = :idTratta")
+@NamedQuery(name = "selectTratte", query = "SELECT t FROM Tratta t")
 public class Tratta {
 
 	// Attributi

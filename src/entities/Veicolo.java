@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NamedQuery(name = "selectNumeroViaggi", query = "SELECT v FROM Veicolo v WHERE v.id = :idVeicolo AND v.tratta.id = :idTratta")
+@NamedQuery(name = "selectVeicoli", query = "SELECT v FROM Veicolo v")
 public class Veicolo {
 
 	// Attributi
