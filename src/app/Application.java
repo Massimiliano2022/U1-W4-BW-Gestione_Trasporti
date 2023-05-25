@@ -105,7 +105,8 @@ public class Application {
 			tkd.save(bigliettoU5);
 
 			// *********** CREO TRATTA ***********
-			Tratta tratta1 = new Tratta("Milano San Siro", "Milano Centrale", LocalTime.of(13, 00), LocalTime.of(1, 15), 5);
+			Tratta tratta1 = new Tratta("Milano San Siro", "Milano Centrale", LocalTime.of(13, 00), LocalTime.of(1, 15),
+					5);
 			Tratta tratta2 = new Tratta("Roma", "Viterbo", LocalTime.of(8, 00), LocalTime.of(1, 45), 3);
 
 			// *********** CREO VEICOLI ***********
@@ -218,24 +219,22 @@ public class Application {
 			vd.save(autobus1);
 		}
 
-		Long idPuntoVendita = 52L;
+		Long idPuntoVendita = 16L;
 
 		stampaNumeroTicketsVenduti(pvd, tkd, idPuntoVendita);
 
 		stampaAbbonamenti(tkd);
 
-		UUID idAbbonamento = UUID.fromString("62cbbfa3-e71f-48d4-8080-2402540f3250");
+		UUID idAbbonamento = UUID.fromString("fe5c66f2-92f1-4abc-acac-b3228768e4fa");
 
 		verificaValiditaAbbonamentoUtente(td, tkd, idAbbonamento);
 
+		UUID idVeicolo = UUID.fromString("eae68b3f-34d4-4b18-b39e-e02d4ea946f6");
+		stampaNumeroBigliettiTimbratiVeicolo(tkd, idVeicolo);
+
+		stampaNumeroTotaleBigliettiTimbrati(tkd);
+
 		/*
-		 * verificaValiditaAbbonamentoUtente(abbonamentoU1, td, utente1);
-		 * 
-		 * stampaNumeroBigliettiTimbratiVeicolo(tkd, autobus1);
-		 * stampaNumeroBigliettiTimbratiVeicolo(tkd, tram1);
-		 * 
-		 * stampaNumeroTotaleBigliettiTimbrati(tkd);
-		 * 
 		 * stampaNumeroViaggiPerVeicoloTratta(vd, autobus1, tratta2);
 		 * stampaNumeroViaggiPerVeicoloTratta(vd, tram1, tratta1);
 		 * 
@@ -280,20 +279,21 @@ public class Application {
 		Utente u = td.selectUtenteByIdTessera(a.getTessera().getId());
 		logger.info("*********************************");
 		logger.info("L'ABBONAMENTO DI " + u.getNome() + " " + u.getCognome() + " E' "
-				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO" : "VALIDO"));
+				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO"
+						: "VALIDO"));
 		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
 	}
 
-	private static void stampaNumeroBigliettiTimbratiVeicolo(TicketDAO tkd, Veicolo veicolo) {
+	private static void stampaNumeroBigliettiTimbratiVeicolo(TicketDAO tkd, UUID idVeicolo) {
 		logger.info("*********************************");
-		logger.info("BIGLIETTI VIDIMATI PER IL VEICOLO CON ID " + veicolo.getId() + ": "
-				+ tkd.selectAllTicketsByIdVeicolo(veicolo.getId()));
+		logger.info("BIGLIETTI VIDIMATI PER IL VEICOLO CON ID " + idVeicolo + ": "
+				+ tkd.selectAllTicketsByIdVeicolo(idVeicolo));
 	}
 
 	private static void stampaNumeroTotaleBigliettiTimbrati(TicketDAO tkd) {
 		logger.info("*********************************");
-		logger.info(
-				"BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: " + tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
+		logger.info("BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: "
+				+ tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
 	}
 
 	private static void stampaNumeroViaggiPerVeicoloTratta(VeicoloDAO vd, Veicolo veicolo, Tratta tratta) {
@@ -304,8 +304,8 @@ public class Application {
 
 	private static void stampaTempoEffettivoPerTratta(TrattaDAO trd, Tratta tratta) {
 		logger.info("*********************************");
-		logger.info(
-				"TEMPO EFFETTIVO TRATTA CON ID " + tratta.getId() + ": " + trd.selectTempoEffettivoPerTratta(tratta.getId()));
+		logger.info("TEMPO EFFETTIVO TRATTA CON ID " + tratta.getId() + ": "
+				+ trd.selectTempoEffettivoPerTratta(tratta.getId()));
 	}
 
 }
