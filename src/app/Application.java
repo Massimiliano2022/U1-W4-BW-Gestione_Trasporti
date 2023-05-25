@@ -66,14 +66,17 @@ public class Application {
 		while (runApplication) {
 
 			logger.info("********* GESTIONE TRASPORTI *********");
-			logger.info("********* QUALE OPERAZIONE INTENDI ESEGUIRE? *********");
+			logger.info("********* SCEGLI UNA TRA LE SEGUENTI OPZIONI: *********");
 			logger.info("********* 1 - STAMPA IL NUMERO DI TICKETS VENDUTI DA UN PUNTO VENDITA *********");
 			logger.info("********* 2 - VERIFICA LA VALIDITA' DELL'ABBONAMENTO DI UN UTENTE *********");
 			logger.info("********* 3 - STAMPA IL NUMERO DI BIGLIETTI VALIDATI PER UN VEICOLO *********");
 			logger.info("********* 4 - STAMPA IL NUMERO TOTALE DI BIGLIETTI VALIDATI *********");
 			logger.info("********* 5 - STAMPA IL NUMERO VIAGGI PER UN VEICOLO E PER UNA TRATTA *********");
 			logger.info("********* 6 - STAMPA IL TEMPO EFFETTIVO PER UNA TRATTA *********");
+			logger.info("********* 7 - CAMBIA STATO ATTIVITA' DISTRIBUTORE *********");
 			logger.info("********* 0 - TERMINA L'APPLICAZIONE *********");
+			logger.info("********* QUALE OPERAZIONE INTENDI ESEGUIRE? *********");
+			
 
 			int input = scanner.nextInt();
 
@@ -96,6 +99,9 @@ public class Application {
 			case 6:
 				tempoEffettivo(scanner, trd);
 				break;
+			case 7:
+				cambiaStatoAttivita(scanner, pvd);
+				break;
 			case 0:
 				runApplication = false;
 				logger.info("Termino l'applicazione.");
@@ -111,6 +117,7 @@ public class Application {
 		em.close();
 		emf.close();
 	}
+
 
 	private static void selezionaPuntoVenditaTicketVenduti(Scanner scanner, PuntoVenditaDAO pvd, TicketDAO tkd) {
 		stampaPuntiVendita(pvd);
@@ -293,6 +300,35 @@ public class Application {
 		logger.info("TEMPO EFFETTIVO TRATTA CON ID " + idTratta + ": " + trd.selectTempoEffettivoPerTratta(idTratta));
 		logger.info("*********************************");
 	}
+
+	private static void cambiaStatoAttivita(Scanner scanner, PuntoVenditaDAO pvd) {
+		stampaDistributori(pvd);
+		int idDistributore;
+		do {
+			logger.info("********* INSERISCI L'ID DEL DISTRIBUTORE: *********");
+			idDistributore = scanner.nextInt();
+			if (idDistributore == 0 || idDistributore < 0) {
+				logger.error("INPUT ERRATO!");
+				logger.error("INSERISCI UN INPUT VALIDO");
+			}
+		} while (idDistributore == 0 || idDistributore < 0);
+		Long id = (long) idDistributore;
+		DistributoreAutomatico d = pvd.selectDistributore(id);
+		if (d != null) {
+			logger.info("STATO ATTUALE DISTRIBUTORE: " + d.isAttivo());
+			d.setAttivo(!d.isAttivo());
+			logger.info("STATO DISTRIBUTORE AGGIORNATO: " + d.isAttivo());
+		}
+	}
+
+	private static void stampaDistributori(PuntoVenditaDAO pvd) {
+		List<DistributoreAutomatico> listaDistributori = pvd.selectAllDistributori();
+		logger.info("********* LISTA COMPLETA DISTRIBUTORI: *********");
+		for (DistributoreAutomatico d : listaDistributori) {
+			logger.info(d.toString());
+		}
+	}
+
 
 	private static void popolaDb(UtenteDAO ud, TesseraDAO td, TicketDAO tkd, PuntoVenditaDAO pvd, VeicoloDAO vd,
 			TrattaDAO trd) {

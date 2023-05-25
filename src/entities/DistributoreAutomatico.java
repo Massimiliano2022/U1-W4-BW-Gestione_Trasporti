@@ -1,10 +1,13 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "distributori_automatici")
+@NamedQuery(name = "selectDistributore", query = "SELECT d FROM DistributoreAutomatico d WHERE d.id = :idDistributore")
+@NamedQuery(name = "selectAllDistributori", query = "SELECT d FROM DistributoreAutomatico d")
 public class DistributoreAutomatico extends PuntoVendita {
 	private boolean attivo;
 
@@ -26,7 +29,7 @@ public class DistributoreAutomatico extends PuntoVendita {
 
 	@Override
 	public String toString() {
-		return "DistributoreAutomatio [ id=" + getId() + ",citta=" + getCitta() + ",indirizzo=" + getIndirizzo()
+		return "DistributoreAutomatico [ id=" + getId() + ",citta=" + getCitta() + ",indirizzo=" + getIndirizzo()
 				+ "attivo=" + attivo + "]";
 	}
 

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import app.Application;
+import entities.DistributoreAutomatico;
 import entities.PuntoVendita;
 
 public class PuntoVenditaDAO {
@@ -38,6 +39,17 @@ public class PuntoVenditaDAO {
 
 	public List<PuntoVendita> selectPuntiVendita() {
 		TypedQuery<PuntoVendita> query = em.createNamedQuery("selectPuntiVendita", PuntoVendita.class);
+		return query.getResultList();
+	}
+
+	public DistributoreAutomatico selectDistributore(Long id) {
+		TypedQuery<DistributoreAutomatico> query = em.createNamedQuery("selectDistributore", DistributoreAutomatico.class);
+		query.setParameter("idDistributore", id);
+		return query.getSingleResult();
+	}
+
+	public List<DistributoreAutomatico> selectAllDistributori() {
+		TypedQuery<DistributoreAutomatico> query = em.createNamedQuery("selectAllDistributori", DistributoreAutomatico.class);
 		return query.getResultList();
 	}
 
