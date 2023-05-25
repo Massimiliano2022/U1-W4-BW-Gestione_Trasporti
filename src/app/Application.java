@@ -190,6 +190,7 @@ public class Application {
 				+ (td.checkValiditaAbbonamento(u.getTessera().getId(), dataScadenzaAbbonamento) ? "SCADUTO"
 						: "VALIDO"));
 		logger.info("DATA SCADENZA:" + dataScadenzaAbbonamento);
+		logger.info("*********************************");
 	}
 
 	private static void bigliettiValidatiVeicolo(Scanner scanner, VeicoloDAO vd, TicketDAO tkd) {
@@ -220,12 +221,14 @@ public class Application {
 		logger.info("*********************************");
 		logger.info("BIGLIETTI VIDIMATI PER IL VEICOLO CON ID " + idVeicolo + ": "
 				+ tkd.selectAllTicketsByIdVeicolo(idVeicolo));
+		logger.info("*********************************");
 	}
 
 	private static void stampaNumeroTotaleBigliettiTimbrati(TicketDAO tkd) {
 		logger.info("*********************************");
 		logger.info("BIGLIETTI VIDIMATI IN TOTALE NEL RANGE DI DATE: "
 				+ tkd.selectAllTicketsValidati(LocalDate.of(2023, 1, 1)));
+		logger.info("*********************************");
 	}
 
 	private static void numeroViaggiVeicoloTratta(Scanner scanner, TrattaDAO trd, VeicoloDAO vd) {
@@ -267,6 +270,7 @@ public class Application {
 		logger.info("*********************************");
 		logger.info(
 				"NUMERO VIAGGI PER VEICOLO CON ID " + idVeicolo + ": " + vd.selectNumeroViaggi(idVeicolo, idTratta));
+		logger.info("*********************************");
 	}
 
 	private static void tempoEffettivo(Scanner scanner, TrattaDAO trd) {
@@ -287,6 +291,7 @@ public class Application {
 	private static void stampaTempoEffettivoPerTratta(TrattaDAO trd, int idTratta) {
 		logger.info("*********************************");
 		logger.info("TEMPO EFFETTIVO TRATTA CON ID " + idTratta + ": " + trd.selectTempoEffettivoPerTratta(idTratta));
+		logger.info("*********************************");
 	}
 
 	private static void popolaDb(UtenteDAO ud, TesseraDAO td, TicketDAO tkd, PuntoVenditaDAO pvd, VeicoloDAO vd,
