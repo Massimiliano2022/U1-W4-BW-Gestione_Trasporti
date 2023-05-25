@@ -316,7 +316,7 @@ public class Application {
 		DistributoreAutomatico d = pvd.selectDistributore(id);
 		if (d != null) {
 			logger.info("STATO ATTUALE DISTRIBUTORE: " + d.isAttivo());
-			d.setAttivo(!d.isAttivo());
+			pvd.updateStato(id);
 			logger.info("STATO DISTRIBUTORE AGGIORNATO: " + d.isAttivo());
 		}
 	}

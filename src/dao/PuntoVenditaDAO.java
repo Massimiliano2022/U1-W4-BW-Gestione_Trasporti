@@ -53,4 +53,12 @@ public class PuntoVenditaDAO {
 		return query.getResultList();
 	}
 
+	 public void updateStato(Long id) {
+	        DistributoreAutomatico found = em.find(DistributoreAutomatico.class, id);
+	        found.setAttivo(!found.isAttivo());
+	        EntityTransaction transaction = em.getTransaction();
+	        transaction.begin();
+	        em.persist(found);
+	        transaction.commit();
+	    }
 }
