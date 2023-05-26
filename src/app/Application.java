@@ -74,6 +74,7 @@ public class Application {
 			logger.info("********* 5 - STAMPA IL NUMERO VIAGGI PER UN VEICOLO E PER UNA TRATTA *********");
 			logger.info("********* 6 - STAMPA IL TEMPO EFFETTIVO PER UNA TRATTA *********");
 			logger.info("********* 7 - CAMBIA STATO ATTIVITA' DISTRIBUTORE *********");
+			logger.info("********* 8 - CAMBIA STATO ATTIVITA' VEICOLO *********");
 			logger.info("********* 0 - TERMINA L'APPLICAZIONE *********");
 			logger.info("********* QUALE OPERAZIONE INTENDI ESEGUIRE? *********");
 
@@ -99,7 +100,10 @@ public class Application {
 				tempoEffettivo(scanner, trd);
 				break;
 			case 7:
-				cambiaStatoAttivita(scanner, pvd);
+				cambiaStatoAttivitaDistributore(scanner, pvd);
+				break;
+			case 8:
+				cambiaStatoAttivitaVeicolo(scanner, vd);
 				break;
 			case 0:
 				runApplication = false;
@@ -299,7 +303,7 @@ public class Application {
 		logger.info("*********************************");
 	}
 
-	private static void cambiaStatoAttivita(Scanner scanner, PuntoVenditaDAO pvd) {
+	private static void cambiaStatoAttivitaDistributore(Scanner scanner, PuntoVenditaDAO pvd) {
 		stampaDistributori(pvd);
 		int idDistributore;
 		do {
@@ -325,6 +329,32 @@ public class Application {
 		for (DistributoreAutomatico d : listaDistributori) {
 			logger.info(d.toString());
 		}
+	}
+
+	private static void cambiaStatoAttivitaVeicolo(Scanner scanner, VeicoloDAO vd) {
+		stampaVeicoli(vd);
+		String inputVeicolo;
+		do {
+			logger.info("********* INSERISCI L'ID DEL VEICOLO: *********");
+			inputVeicolo = scanner.next();
+			if (inputVeicolo.equals("")) {
+				logger.error("DATO OBBLIGATORIO!");
+				logger.error("INSERISCI L'ID DEL VEICOLO!");
+			}
+		} while (inputVeicolo.equals(""));
+
+		UUID idVeicolo = UUID.fromString(inputVeicolo);
+		Veicolo v = vd.selectVeicoloById(idVeicolo);
+		if (v != null) {
+			logger.info("STATO ATTUALE VEICOLO: " + (v.isStatoServizio() ? "IN SERVIZIO" : "IN MANUTENZIONE")
+					+ ". DATA " + (v.isStatoServizio() ? "INIZIO" : "FINE") + " SERVIZIO: "
+					+ (v.isStatoServizio() ? v.getDataInizioServizio() : v.getDataFineServizio()));
+			vd.updateStato(idVeicolo);
+			logger.info("STATO AGGIORNATO VEICOLO: " + (v.isStatoServizio() ? "IN SERVIZIO" : "IN MANUTENZIONE")
+					+ ". DATA " + (v.isStatoServizio() ? "INIZIO" : "FINE") + " SERVIZIO: "
+					+ (v.isStatoServizio() ? v.getDataInizioServizio() : v.getDataFineServizio()));
+		}
+
 	}
 
 	private static void popolaDb(UtenteDAO ud, TesseraDAO td, TicketDAO tkd, PuntoVenditaDAO pvd, VeicoloDAO vd,

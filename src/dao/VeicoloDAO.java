@@ -1,5 +1,6 @@
 package dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,30 @@ public class VeicoloDAO {
 	public List<Veicolo> selectVeicoli() {
 		TypedQuery<Veicolo> query = em.createNamedQuery("selectVeicoli", Veicolo.class);
 		return query.getResultList();
+	}
+
+	public Veicolo selectVeicoloById(UUID idVeicolo) {
+		TypedQuery<Veicolo> query = em.createNamedQuery("selectVeicoloById", Veicolo.class);
+		query.setParameter("idVeicolo", idVeicolo);
+		return query.getSingleResult();
+	}
+
+	public void updateStato(UUID id) {
+		Veicolo found = em.find(Veicolo.class, id);
+
+		if (found.isStatoServizio()) {
+			found.setDataFineServizio(LocalDate.now());
+			found.setStatoServizio(!found.isStatoServizio());
+		} else {
+			found.setDataFineServizio(null);
+			found.setDataInizioServizio(LocalDate.now());
+			found.setStatoServizio(!found.isStatoServizio());
+		}
+
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
+		em.persist(found);
+		transaction.commit();
 	}
 
 }
