@@ -75,6 +75,7 @@ public class Application {
 			logger.info("********* 6 - STAMPA IL TEMPO EFFETTIVO PER UNA TRATTA *********");
 			logger.info("********* 7 - CAMBIA STATO ATTIVITA' DISTRIBUTORE *********");
 			logger.info("********* 8 - CAMBIA STATO ATTIVITA' VEICOLO *********");
+			logger.info("********* 9 - AGGIUNGI UTENTE *********");
 			logger.info("********* 0 - TERMINA L'APPLICAZIONE *********");
 			logger.info("********* QUALE OPERAZIONE INTENDI ESEGUIRE? *********");
 
@@ -104,6 +105,9 @@ public class Application {
 				break;
 			case 8:
 				cambiaStatoAttivitaVeicolo(scanner, vd);
+				break;
+			case 9:
+				aggiungiUtente(scanner, ud, td);
 				break;
 			case 0:
 				runApplication = false;
@@ -355,6 +359,33 @@ public class Application {
 					+ (v.isStatoServizio() ? v.getDataInizioServizio() : v.getDataFineServizio()));
 		}
 
+	}
+
+	private static void aggiungiUtente(Scanner scanner, UtenteDAO ud, TesseraDAO td) {
+		String nomeUtente;
+		String cognomeUtente;
+		do {
+			logger.info("********* INSERISCI IL NOME DELL'UTENTE: *********");
+			nomeUtente = scanner.next();
+			if (nomeUtente.equals("")) {
+				logger.error("DATO OBBLIGATORIO!");
+				logger.error("INSERISCI IL NOME!");
+			}
+		} while (nomeUtente.equals(""));
+		do {
+			logger.info("********* INSERISCI IL COGNOME DELL'UTENTE: *********");
+			cognomeUtente = scanner.next();
+			if (cognomeUtente.equals("")) {
+				logger.error("DATO OBBLIGATORIO!");
+				logger.error("INSERISCI IL COGNOME!");
+			}
+		} while (cognomeUtente.equals(""));
+		Utente u = new Utente(UUID.randomUUID(), nomeUtente, cognomeUtente);
+		Tessera tesseraU1 = new Tessera(UUID.randomUUID(), LocalDate.now(), LocalDate.now().plusYears(1), u);
+		td.save(tesseraU1);
+		u.setTessera(tesseraU1);
+		ud.save(u);
+		logger.info("UTENTE SALVATO!");
 	}
 
 	private static void popolaDb(UtenteDAO ud, TesseraDAO td, TicketDAO tkd, PuntoVenditaDAO pvd, VeicoloDAO vd,
